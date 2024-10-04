@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/jobs_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,9 +35,7 @@ class _MyHomePage extends State<MyHomePage> {
   int _selectedPage = 0;
 
   final List _pages = <Widget>[
-     Center(
-      child: Text("Jobs"),
-    ),
+    JobsList(),
      Center(
       child: Text("Profile"),
     ),
@@ -65,7 +64,7 @@ class _MyHomePage extends State<MyHomePage> {
             onTap: (index)=>_changeTab(index),
          items:const <BottomNavigationBarItem> [
             BottomNavigationBarItem(
-                icon: Icon(Icons.business_outlined),
+                icon: Icon(Icons.work_outline),
                 label: "Jobs"
             ),
             BottomNavigationBarItem(
