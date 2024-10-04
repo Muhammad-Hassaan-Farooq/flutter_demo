@@ -46,8 +46,15 @@ class _JobsList extends State<JobsList>{
                                 return Card(
                                         key: ValueKey(index),
                                         child: ListTile(
-                                            leading: Image.network(snapshot.data![index].logo),
+                                            leading: CircleAvatar(radius: 20,backgroundImage: NetworkImage(snapshot.data![index].logo)),
                                             title: Text(snapshot.data![index].title),
+                                            subtitle: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start
+                                            ,children:<Widget> [
+                                                Text(snapshot.data![index].company),
+                                                Text("${snapshot.data![index].location}.${snapshot.data![index].preference }.${snapshot.data![index].type }"),
+                                                Row(children: [const Text("test")],mainAxisAlignment: MainAxisAlignment.end,)
+                                            ],),
 
                                             ),
                                         );
