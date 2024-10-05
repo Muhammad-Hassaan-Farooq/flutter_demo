@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white,
       ),
       home: const MyHomePage(),
     );
@@ -37,7 +38,7 @@ class _MyHomePage extends State<MyHomePage> {
   final List _pages = <Widget>[
     JobsList(),
      Center(
-      child: Text("Profile"),
+      child: Text("Resume"),
     ),
      Center(
       child: Text("Settings"),
@@ -54,12 +55,14 @@ class _MyHomePage extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text("Jobs"),
         actions:<Widget>[
             IconButton(onPressed:(){}, icon: const Icon(Icons.notifications_outlined,color: Color(0xff784d81),))
         ],
           ),
          bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Colors.white,
             currentIndex: _selectedPage,
             onTap: (index)=>_changeTab(index),
          items:const <BottomNavigationBarItem> [
@@ -69,7 +72,7 @@ class _MyHomePage extends State<MyHomePage> {
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.person_outlined),
-                label: "Profile"
+                label: "Resume"
             ),
             BottomNavigationBarItem(
                  icon: Icon(Icons.settings_outlined),

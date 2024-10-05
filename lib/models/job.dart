@@ -6,6 +6,7 @@ class Job {
     final String location;
     final String type;
     final String preference;
+    final DateTime updatedDate;
 
     Job(
             {
@@ -15,7 +16,8 @@ class Job {
             required this.type,
             required this.location,
             required this.preference,
-            required this.company
+            required this.company,
+            required this.updatedDate
             }
        );
 
@@ -26,6 +28,7 @@ class Job {
         type:json['type']['name_en'],
         location: json['location']['name_en'],
         preference: json['workplace_preference']['name_en'],
-        company: json['company']['name']);
+        company: json['company']['name'],
+        updatedDate: DateTime.parse(json["updated_date"]));
     }
 }
