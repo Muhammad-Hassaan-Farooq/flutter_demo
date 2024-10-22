@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo/PostList.dart';
+import 'package:flutter_demo/PostListWidget.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (_)=> Counter())
+      ,ChangeNotifierProvider(create: (_)=> PostList())
     ],
     child: const MyApp(),)
   );
@@ -52,18 +55,7 @@ class MyHomePage extends StatelessWidget {
        title: const Text("Example"),
      ),
      body: Center(
-       child: Column(
-         mainAxisSize: MainAxisSize.min,
-         mainAxisAlignment: MainAxisAlignment.center,
-         children: [
-           Text("You've pushed this button this many times:"),
-           Text(
-             '${context.watch<Counter>().count}',
-             key: const Key('CounterState'),
-             style: Theme.of(context).textTheme.headlineMedium,
-           )
-         ],
-       ),
+       child: PostListWidget(),
      ),
      floatingActionButton: FloatingActionButton(
          onPressed: ()=>context.read<Counter>().increment(),
