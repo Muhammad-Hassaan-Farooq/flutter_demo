@@ -54,11 +54,11 @@ class ZeroButton extends StatelessWidget{
           },
       style: ElevatedButton.styleFrom(
         shape: StadiumBorder(),
-        padding: EdgeInsets.only(left: 68, top: 8, right: 68, bottom: 8),
+        padding: EdgeInsets.only(left: 35, top: 8, right: 68, bottom: 8),
         backgroundColor: bgColor,
           fixedSize: Size(180, 80)
       ),
-      child: Text(
+      child: Align(alignment: Alignment.centerLeft,child:Text(
         symbol,
         style: TextStyle(
           fontSize: 36,
@@ -66,7 +66,7 @@ class ZeroButton extends StatelessWidget{
           color:textColor
         ),
       ),
-    );
+    ));
 
   }
 }
