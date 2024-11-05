@@ -15,7 +15,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
 
   TimerBloc({required Ticker ticker})
       : _ticker = ticker,
-        super(TimerInitial(_duration)) {
+        super(const TimerInitial(_duration)) {
     on<TimerStarted>(_onStarted);
     on<TimerPaused>(_onPaused);
     on<TimerResumed>(_onResumed);
