@@ -1,19 +1,9 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_demo/news/cubit/news_cubit.dart';
-import 'package:flutter_demo/news/views/NewsPage.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:news_repository/news_repository.dart';
-import 'package:path_provider/path_provider.dart';
-
+import 'package:flutter_demo/news/bloc/news_bloc.dart';
+import 'package:flutter_demo/news/views/news_page.dart';
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  HydratedBloc.storage = await HydratedStorage.build(
-      storageDirectory: kIsWeb
-          ? HydratedStorage.webStorageDirectory
-          : await getTemporaryDirectory(),
-  );
   runApp(const MyApp());
 }
 
@@ -31,7 +21,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: BlocProvider(
-          create: (_)=>NewsCubit(NewsRepository()),
+          create: (_)=>NewsBloc(),
           child: const NewsPage(),)
     );
   }

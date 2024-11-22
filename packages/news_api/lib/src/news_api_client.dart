@@ -23,13 +23,14 @@ class NewsApiClient {
 
     final articleResponse = await _httpClient.get(articleRequest);
 
-    print(articleResponse);
     if(articleResponse.statusCode != 200){
       throw NewsRequestFailure();
     }
 
     final articleJson = jsonDecode(articleResponse.body) as Map;
     final results = articleJson["articles"] as List;
+
+
 
     return results
         .map((article)=>Article.fromJson(article as Map<String,dynamic>))

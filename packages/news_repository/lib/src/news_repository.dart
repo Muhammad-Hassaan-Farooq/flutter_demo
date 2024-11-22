@@ -1,4 +1,4 @@
-import 'package:news_api/news_api.dart' hide Article;
+import 'package:news_api/news_api.dart' hide Article,Source;
 import 'package:news_repository/news_repository.dart';
 
 class NewsRepository {
@@ -10,9 +10,11 @@ class NewsRepository {
   Future<List<Article>> getNews() async {
     final news = await _newsApiClient.getArticles() as List;
 
+
+
     return news
         .map((article) => Article(
-            source: article.source,
+            source: Source(id:article.source.id,name:article.source.name),
             author: article.author,
             description: article.description,
             url: article.url,

@@ -5,10 +5,10 @@ part 'source.g.dart';
 @JsonSerializable()
 class Source{
 
-  final String id;
-  final String name;
+  final String? id;
+  final String? name;
 
-  const Source({required this.id, required this.name});
+  const Source({this.id = "No id", this.name ="Unknown"});
 
   factory Source.fromJson(Map<String, dynamic> json) =>
       _$SourceFromJson(json);

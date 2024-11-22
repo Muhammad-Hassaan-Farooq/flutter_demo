@@ -11,7 +11,7 @@ class Article extends Equatable{
   final String description;
   final String url;
   final String urlToImage;
-  final DateTime publishedAt;
+  final DateTime? publishedAt;
   final String content;
 
   const Article({
@@ -20,7 +20,7 @@ class Article extends Equatable{
     required this.description,
     required this.url,
     required this.urlToImage,
-    required this.publishedAt,
+    this.publishedAt,
     required this.content
   });
 
