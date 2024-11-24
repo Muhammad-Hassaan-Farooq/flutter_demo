@@ -10,11 +10,12 @@ class NewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xfffff9ff),
       extendBodyBehindAppBar: true,
       appBar: AppBar(
           backgroundColor: Colors.white,
           shadowColor: Colors.black,
-          elevation: 10,
+          elevation: 1,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

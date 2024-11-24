@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/news/models/article.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ArticleList extends StatelessWidget {
   final List<Article> articles;
@@ -25,8 +28,11 @@ class ArticleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       child: Card(
+        color: Colors.white,
+        elevation: 3,
+        shadowColor: Colors.orange,
         child: InkWell(
             onTap: () {
               _settingModalBottomSheet(context, article);
@@ -43,11 +49,9 @@ class ArticleTile extends StatelessWidget {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(article.source.name),
-                  Text(
-                    article.publishedAt?.toUtc().toString() ??
-                        'No Date Available',
-                  )
+                  Text(article.author),
+                  Text(DateFormat("yyyy-MM-dd")
+                      .format(DateTime.parse(article.publishedAt.toString())))
                 ],
               ),
               leading: Stack(
@@ -88,57 +92,93 @@ class ArticleTile extends StatelessWidget {
 }
 
 void _settingModalBottomSheet(context, Article article) {
-
   final screenWidth = MediaQuery.of(context).size.width;
 
   showModalBottomSheet(
+      isScrollControlled: true,
       enableDrag: true,
       showDragHandle: true,
       context: context,
       builder: (BuildContext bc) {
         return Padding(
             padding: EdgeInsets.all(16),
-            child: ListView(
-              children: [
-                    Text(
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold
-                            ,fontSize: 20),
-                        article.title),
-                    Text("By ${article.source.name}"),
-                    Text("Published on ${article.publishedAt.toString()}"),
-                    Stack(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20),
+                      article.title),
+                  const SizedBox(height: 10),
+                  Text("By ${article.author}"),
+                  Text(
+                      "Published on ${DateFormat("yyyy-MM-dd").format(DateTime.parse(article.publishedAt.toString()))}"),
+                  const SizedBox(height: 10),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Stack(
                       children: [
                         Shimmer.fromColors(
                           baseColor: Colors.grey[300]!,
                           highlightColor: Colors.grey[100]!,
                           child: Container(
-                            width: 0.9*screenWidth,
+                            width: 0.9 * screenWidth,
                             color: Colors.white,
                           ),
                         ),
                         FadeInImage.memoryNetwork(
                           placeholder: kTransparentImage,
                           image: article.urlToImage,
-
                           fit: BoxFit.fitWidth,
                           fadeInDuration: const Duration(milliseconds: 500),
                           imageErrorBuilder: (context, error, stackTrace) =>
                               Container(
-                                color: Colors.grey[300],
-                                child: const Icon(
-                                  Icons.broken_image,
-                                  color: Colors.grey,
-                                ),
-                              ),
+                            color: Colors.grey[300],
+                            child: const Icon(
+                              Icons.broken_image,
+                              color: Colors.grey,
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    Text(
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                        article.description),
-                    Text(article.content),
-              ],
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      article.description),
+                  const SizedBox(height: 10),
+                  Text(article.content),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                      ),
+                      onPressed: () async {
+                        try {
+                          if (!await launchUrl(Uri.parse(article.url))) {
+                            throw Exception("Error opening url");
+                          }
+                        } catch (e) {
+                          Fluttertoast.showToast(
+                              msg: "Could not open article",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 16.0
+                          );
+                        }
+                      },
+                      child: const Text(
+                          style: TextStyle(
+                            color: Colors.white
+                          )
+                          ,"View article"))
+                ],
+              ),
             ));
       });
 }
