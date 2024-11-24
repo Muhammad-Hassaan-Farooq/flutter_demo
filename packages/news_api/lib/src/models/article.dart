@@ -12,6 +12,7 @@ class Article {
   final String? urlToImage;
   final DateTime? publishedAt;
   final String? content;
+  final String?title;
 
   const Article({
     required this.source,
@@ -20,7 +21,8 @@ class Article {
     required this.url, // URL is kept required
     this.urlToImage = "", // Default value for optional image URL
     this.publishedAt, // DateTime can remain null without default
-    this.content = "No content available", // Default value
+    this.content = "No content available",
+    this.title = "Removed"// Default value
   });
 
   factory Article.fromJson(Map<String, dynamic> json) =>
@@ -28,7 +30,7 @@ class Article {
 
   @override
   String toString() {
-    return 'Article{source: $source, author: $author, description: $description, url: $url, urlToImage: $urlToImage, publishedAt: $publishedAt, content: $content}';
+    return 'Article{source: $source, author: $author, title: $title ,description: $description, url: $url, urlToImage: $urlToImage, publishedAt: $publishedAt, content: $content}';
   }
 
 }

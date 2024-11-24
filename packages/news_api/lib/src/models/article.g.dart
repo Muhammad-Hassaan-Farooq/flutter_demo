@@ -26,6 +26,7 @@ Article _$ArticleFromJson(Map<String, dynamic> json) => $checkedCreate(
               (v) => v == null ? null : DateTime.parse(v as String)),
           content: $checkedConvert(
               'content', (v) => v as String? ?? "No content available"),
+          title: $checkedConvert('title', (v) => v as String? ?? "Removed"),
         );
         return val;
       },

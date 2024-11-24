@@ -13,6 +13,7 @@ class Article extends Equatable{
   final String urlToImage;
   final DateTime? publishedAt;
   final String content;
+  final String title;
 
   const Article({
     required this.source,
@@ -21,7 +22,8 @@ class Article extends Equatable{
     required this.url,
     required this.urlToImage,
     this.publishedAt,
-    required this.content
+    required this.content,
+    required this.title
   });
 
   factory Article.fromJson(Map<String, dynamic> json) =>
@@ -29,6 +31,6 @@ class Article extends Equatable{
 
   Map<String,dynamic> toJson() => _$ArticleToJson(this);
   @override
-  List<Object?> get props => [source,author,description,url,urlToImage,publishedAt,content];
+  List<Object?> get props => [source,author,description,url,urlToImage,publishedAt,content,title];
 
 }

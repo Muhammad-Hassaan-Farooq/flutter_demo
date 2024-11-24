@@ -20,7 +20,8 @@ class NewsRepository {
             url: article.url,
             urlToImage: article.urlToImage,
             publishedAt: article.publishedAt,
-            content: article.content))
+            content: article.content,
+            title: article.title))
         .toList();
   }
 }
