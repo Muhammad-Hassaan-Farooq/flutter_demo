@@ -32,7 +32,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       ).toList();
       emit(NewsLoaded(articles: articlesList));
     }
-    catch(e,stack){
+    catch(e){
         emit(const NewsError());
     }
   }

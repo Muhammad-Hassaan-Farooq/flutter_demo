@@ -101,7 +101,7 @@ void _settingModalBottomSheet(context, Article article) {
       context: context,
       builder: (BuildContext bc) {
         return Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
