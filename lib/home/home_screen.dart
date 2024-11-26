@@ -32,51 +32,61 @@ class HomePage extends StatelessWidget {
                 FirebaseFirestore.instance.collection("friends").snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Text(
-                  snapshot.toString()
-                );
-              }
-              else{
-               return ListView.builder(itemCount: snapshot.data?.docs.length,
-               itemBuilder: (context,index){
-                 DocumentSnapshot ds = snapshot.data?.docs[index] as DocumentSnapshot<Object?>;
+                return Text(snapshot.toString());
+              } else {
+                return ListView.builder(
+                    itemCount: snapshot.data?.docs.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot ds = snapshot.data?.docs[index]
+                          as DocumentSnapshot<Object?>;
 
-                  return Card(child: ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                      Text(ds["name"]),
-                      IconButton(onPressed: ()async{
-                        await FirebaseFirestore.instance.collection("friends").doc(ds.id).delete();
-                      }, icon: Icon(Icons.delete))
-                    ],),
-                    subtitle: Text(ds["email"]),
-                  ),);
-               });
-
-
+                      return Card(
+                        child: ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(ds["name"]),
+                              IconButton(
+                                  onPressed: () async {
+                                    _showMyDialog(context, ds);
+                                  },
+                                  icon: Icon(Icons.delete))
+                            ],
+                          ),
+                          subtitle: Text(ds["email"]),
+                        ),
+                      );
+                    });
               }
             }));
-
-
   }
 }
 
-Future<void> _showMyDialog(context,doc) async {
+Future<void> _showMyDialog(context, doc) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: true, // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Delete ${doc["name"]}'),
+        title: const Text('Delete'),
         content: const Text("Are you sure you wanna delete?"),
         actions: <Widget>[
           TextButton(
-            child: const Text('Approve'),
-            onPressed: () {
+            child: const Text('Delete'),
+            onPressed: () async{
               Navigator.of(context).pop();
+              await FirebaseFirestore.instance
+                  .collection("friends")
+                  .doc(doc.id)
+                  .delete();
+
             },
           ),
+          TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              })
         ],
       );
     },

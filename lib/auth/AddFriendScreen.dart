@@ -34,7 +34,6 @@ class _AddFriendScreen extends State<AddFriendScreen> {
               Padding(
                 padding: EdgeInsets.all(8),
                 child: TextField(
-                  obscureText: true,
                   controller: emailController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
