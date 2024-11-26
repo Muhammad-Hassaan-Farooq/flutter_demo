@@ -1,12 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/auth/AuthService.dart';
+import 'package:flutter_demo/auth/google_sign_in.dart';
 import 'package:flutter_demo/auth/login_screen.dart';
 import 'package:flutter_demo/auth/signup_screen.dart';
 import 'package:flutter_demo/home/home_screen.dart';
 
-void main() {
-
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -17,7 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Firebase.initializeApp();
+
 
     return MaterialApp(
       title: 'Firebase App',
@@ -50,17 +53,34 @@ class _HomeScreen extends State<HomeScreen>{
   void initState() {
     // TODO: implement initState
     super.initState();
-    screenState = "Login";
+    if(FirebaseAuth.instance.currentUser== null) {
+      screenState = "Google";
+      setState(() {
+
+      });
+    }
+    else{
+      screenState = "Home";
+      setState(() {
+
+      });
+    }
+
   }
 
-  void login(String email, String password) async{
-      String? response = await AuthService().login(email: email, password: password);
 
-      if(response!=null){
-        if(response == "Success"){
-          changeScreen("Home");
-        }
+  void login(String email, String password) async{
+    String? response = await AuthService().login(email: email, password: password);
+
+    if(response!=null){
+      if(response == "Success"){
+        changeScreen("Home");
       }
+    }
+    setState(() {
+
+    });
+
 
 
   }
@@ -90,10 +110,13 @@ class _HomeScreen extends State<HomeScreen>{
   Widget build(BuildContext context) {
 
 
+
     switch(screenState){
       case "Login": return LoginScreen(login: (String email,String password) => {login(email, password)} ,signup: ()=>{changeScreen("Signup")});
-      case "Home": return HomePage();
+      case "Home": return HomePage(redirect: (String screen)=>{changeScreen(screen)});
       case "Signup": return SignupScreen(signup: (String email,String password) => {signup(email, password)});
+      case "Google": return GoogleSignInScreen(redirect:(String screen)=>{changeScreen(screen)});
+
     }
     return LoginScreen(login: (String email,String password) => {login(email, password)},signup: ()=>{changeScreen("Signup")});
   }
