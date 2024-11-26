@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   Future<String?> registration({
@@ -44,6 +45,37 @@ class AuthService {
       }
     } catch (e) {
       return e.toString();
+    }
+  }
+
+  Future<UserCredential> signInWithGoogle()async{
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final credentials = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken
+    );
+    return await FirebaseAuth.instance.signInWithCredential(credentials);
+  }
+
+  Future<String?> signOutWithGoogle()async{
+    try{
+      await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
+      return "Success";
+    }
+    catch(e){
+      throw Exception("Unable to logout");
+    }
+  }
+
+  Future<String> logout() async{
+    try{
+      await FirebaseAuth.instance.signOut();
+      return "Success";
+    }
+    catch(e){
+      throw Exception("Unable to logout");
     }
   }
 }
